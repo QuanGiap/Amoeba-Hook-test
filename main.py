@@ -22,7 +22,7 @@ async def part_update_hook(request: Request):
     # """
 
     # return Response(content=xml_response, media_type="application/xml")
-    return Response(content=xml, media_type="application/xml")
+    return xml
 
 @app.get("/ping")
 def ping():
