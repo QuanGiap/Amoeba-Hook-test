@@ -4,25 +4,21 @@ app = FastAPI()
 
 @app.post("/")
 async def part_update_hook(request: Request):
-    xml = await request.body()
-    print(f"XML part request: {xml}")
-    data = xmltodict.parse(xml)
-    print(f"Received part update: {data}")
-    # component = data["LibraryComponentUpdate"]["Component"]
-    # part_number = component["PartNumber"]
-    # change_type = component["ChangeType"]
-    # attributes = component.get("Attributes", {})
+    xml_body = await request.body()
+    # Optionally log or parse it:
+    print(xml_body.decode())
 
-    # Log or process update
-    # xml_response = """
-    # <LibraryComponentUpdateResponse>
-    #     <Status>Success</Status>
-    #     <Message>Component received</Message>
-    # </LibraryComponentUpdateResponse>
-    # """
+    # Prepare a SOAP XML response
+    soap_response = """<?xml version="1.0" encoding="UTF-8"?>
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+        <soapenv:Body>
+            <Response xmlns="http://www.mentor.com/harness/Schema/LibrarySchema">
+                <Status>Success</Status>
+            </Response>
+        </soapenv:Body>
+    </soapenv:Envelope>"""
 
-    # return Response(content=xml_response, media_type="application/xml")
-    return Response(content=xml, media_type="application/xml")
+    return Response(content=soap_response, media_type="application/xml")
 
 @app.get("/ping")
 def ping():
