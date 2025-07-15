@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request, Response
 import xmltodict
 app = FastAPI()
 
-@app.get("/")
+@app.post("/")
 async def part_update_hook(request: Request):
     xml = await request.body()
     print(f"XML part request: {xml}")
